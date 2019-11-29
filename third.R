@@ -74,3 +74,125 @@ score[,'English']
 rownames(score)
 colnames(score)
 colnames(score)[2]
+
+# Data Frame 생성- 많이 사용, 벡터를 하나를 변수로 본다. -> dim, str 먼저 확인
+city <- c('Seoul','Tokyo','Washington')  #변수명을 주지 않았는데도 
+rank <- c(1,3,2)
+city.info <- data.frame(city, rank)
+city.info
+
+name <- c('Hong','Kim','Lee')
+age <- c(22, 20,25)
+gender =factor(c('M','F','M'))
+blood.type <- factor(c('A','O','B'))
+person.info <- data.frame(name, age, gender, blood.type)
+person.info
+
+
+person2.info <- data.frame(name=c('Hong', 'Kim','Lee'),
+                            age=c(22,20,25),
+                            gender=factor(c('M','F','M')),
+                            blood.type=factor(c('A','O,','B'))) 
+                            
+person2.info                            
+
+# data frame 요소 접근 
+city.info[1,1]
+city.info[1, ]
+city.info[, 1]
+city.info[city.info$city, ]
+city.info[ ,"rank"]
+
+person.info$name
+person.info[person.info$name=="Hong"]
+person.info[person.info$name=="Hong",c("name","age")]
+
+data() # R이 제공하는 dataset
+
+iris
+
+iris[ , c(1:2)]
+iris[ , c(1,3,5)]
+iris[ , c("Sepal.Length", "Species")]
+iris[1:5] ; iris[1:5, c(1,3)]
+
+
+
+# Matrix와 Data Frame에서 사용하는 함수
+dim(person.info)
+dim(iris)      # 관측치 150개, 변수 5개
+nrow(person.info)
+nrow(m3)
+ncol(person.info)
+head(iris)     #
+tail(iris)     #
+str(iris)      #
+str(city.info)
+str(person.info)
+iris[,5]
+unique(iris[,5])
+table(iris[,"Species"])#
+table(person.info[,"blood.type"])
+table(person.info[,"gender"])
+
+
+# Matrix/Data Frame 사용함수     # apply에서 방향 col : 2, row : 1
+# 행별 /열별 합계와 평균 계산
+
+colSums(iris[,-5]);            apply(iris[ , 1:4],2,sum)  # 변수의 합계, (apply)데이터셋, 방향, 동작 
+colMeans(iris[,-5]) ;          apply(iris[ , 1:4],2, mean)  
+rowSums(iris[,-5]);            apply(iris[ , -5 ], 1, sum)# 150행의 합계
+rowMeans(iris[,-5]);           apply(iris[ , -5 ], 1, mean)
+apply(iris[, -5], 2, median )
+
+
+# 행/열 방향 전환 -> 전치행렬
+z <- matrix(1:20, nrow=4, ncol=5); z
+t(z)
+
+
+# 조건에 맞는 행과 열의 값 추출(Data Frame만 가능) -> 부분추출
+IR.1 <- subset(iris, Species=="setosa") ;IR.1
+IR.2 <- subset(iris, Sepal.Length > 5.0 & Sepal.Width>4.0); IR.2
+IR.2[ , c(2,4)]
+
+
+# Matrix/Data.Frame 산술연산 
+a <- matrix(1:20, 4,5); a
+b <- matrix(21:40,4,5); b
+
+2*a
+b-5
+2*a+3*b
+
+a+b
+b-a
+b/a
+a*b
+
+
+# Matrix/Data.Frame 자료구조 확인/변환
+class(iris);     str(iris)
+class(state.x77);  str(state.x77)
+is.matrix(iris)   # iris 가 matrix인가?
+is.data.frame(iris)
+is.matrix(state.x77)
+is.data.frame(state.x77)
+
+st <- data.frame(state.x77)  # matrix-> data.Frame
+str(st)
+head(st)
+class(st)
+dim(st)
+
+iris.m <- as.matrix(iris[ , 1:4])  # data.Frame(1열~4열) -> matrix
+head(iris.m)
+class(iris.m)
+str(iris.m)
+
+#참고
+head(st)
+attach(st)     # 벡터(1차원)의 모임 -> matrix, data.Frame(2차원), 변수이름을 일반변수처럼 자유롭게  쓰고자 할 때 
+Population
+detach(st)    
+Population
