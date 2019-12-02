@@ -110,6 +110,51 @@ range(weight)
 diff(range(weight))
 
 
+# histogram : 연속형 자료의 분포를 시각화
+# 연속형 자료에서는 구간을 나누고 구간에 속한 값들의 개수를 세는 방법으로 사용
+
+str(cars)
+cars
+dist <- cars[ , 2]
+hist(dist, main='Histogram for 제동거리', xlab = '제동거리',
+      ylab='빈도수', border= 'blue', col= 'green', las=1, breaks=5)  #las = x축 글자 방향 0~3 
+
+summary(dist)
+
+# 상자그림(boxplot, 상자수염그림)
+# 사분위수를 시각화하여 그래프 형태로 표시 
+# 상자그림은 하나의 그래프로 데이터의 분포 형태를 포함한 다양한 정보를 전달 
+# 자료의 전반적인 분포를 이해하는데 도움
+# 구체적인 최소/최대/중앙값을 알기는 어려움 
+
+boxplot(dist, main = '자동차 제동거리 ') # 상자안에 대부분 데이터가 모여 있음. 상자가 좁으면 데이터가 특정 값에 모여 있음.
+                                         # 최대값 위에 동그라미 - 이상치 1개 -> 추후 이상치 처리 
+boxplot.stats(dist)
+boxplot.stats(dist)$stats             # 정상범위 사분위수 
+boxplot.stats(dist)$n                 # 관측치 개수 
+boxplot.stats(dist)$conf              # 중앙값 신뢰구간 
+boxplot.stats(dist)&out               # 이상치(특이값) 목록- > list형식
+
+
+
+#일변량 중 그룹으로 구성된 자료의 상자그림 
+boxplot(Petal.Length~Species, data= iris, main='품종별 꽃잎의 길이 ')
+
+
+
+# 한 화면에 여러 그래프 작성
+par(mfrow=c(1,3))   # 1x3 가상화면 분할
+
+
+barplot(table(mtcars$carb), main="c",
+        xlab="carburetors", ylab= " freq", col="blue")
+barplot(table(mtcars$cyl), main="Cyl",
+        xlab="Cyl", ylab= " freq", col="red")
+barplot(table(mtcars$gear), main="g",
+        xlab="gear", ylab= " freq", col="green")
+
+
+par(mfrow=c(1,1))  # 가상화면 분할 해체 
 
 
 
