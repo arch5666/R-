@@ -41,6 +41,27 @@ score
 idx <- which(iris[,1:4]>5.0, arr.ind=TRUE)
 idx
 
+# 단일변수 (일변량) 범주형 자료 탐색 
+#
+favorite <- c('WINTER', 'SUMMER', 'SPRING',
+              'SUMMER', 'SUMMER','FALL',
+              'FALL', 'SUMMER', 'SPRING', 'SPRING')
+
+favorite
+class(favorite)
+table(favorite)
+table(favorite)/length(favorite)  # 비율계산
+ds <- table(favorite)
+ds
+barplot(ds, main = "favorite season")
+
+ds.new <- ds[c(2,3,1,4)]
+ds.new
+barplot(ds.new, main = 'favorite season')
+
+
+
+
 
 
 
