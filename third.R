@@ -196,3 +196,28 @@ attach(st)     # 벡터(1차원)의 모임 -> matrix, data.Frame(2차원), 변�
 Population
 detach(st)    
 Population
+
+# csv file 내용읽기
+getwd()
+setwd("D:/workR")   # 경로변경 
+air <- read.csv("airquality.csv", header = T) # 열 제목 :  header
+
+class(air)
+dim(air)
+str(air)
+head(air)
+tail(air)
+
+
+name <- c('Hong','Kim','Lee')
+age <- c(22, 20,25)
+gender =factor(c('M','F','M'))
+blood.type <- factor(c('A','O','B'))
+person.info <- data.frame(name, age, gender, blood.type)
+person.info
+setwd("D:/workR")   # 경로변경 
+write.csv(person.info, "person_info.csv", row.names = F) # data.Frame -> CSV생성
+
+
+
+
