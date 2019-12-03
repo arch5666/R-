@@ -133,3 +133,102 @@ plot(month, late1, main = '지각생 통계', type="l", lty=2, lwd=2,col="red",
      xlab = 'Month', ylab="late cnt",ylim=c(1,15))
 lines(month, late2, type="b", col="blue")
 
+
+
+# 자료 탐색 실습 - 탐색적 데이터 분석
+#
+# 0단계 : 문제정의
+# 1단계 : 분석 대상 데이터셋 준비
+#         BostonHousing 데이터셋(mlbench pac.)
+#
+
+install.packages("mlbench")
+library(mlbench)
+data(BostonHousing) 
+# crim : 1인당 범죄율
+# rm : 주택 1가구당 방수
+# dis : 보스턴 5개 지역센터까지의 거리
+# tax : 재산세율
+# medv : 주택가격 
+myds <- BostonHousing [ , c("crim",
+                          "rm",
+                          "dis",
+                          "tax",
+                          "medv"
+                          )] 
+ 
+class(BostonHousing)
+dim(BostonHousing)
+str(BostonHousing)
+head(BostonHousing)
+tail(BostonHousing)
+
+# 2단계 : 파생변수 추가 : grp 변수 추가 (주택가격 상중하)
+grp <- c()
+for (i in 1:nrow(myds)){
+  if(myds$medv[i]>=25.0){
+    grp[i]<-'H'
+  } else if (myds$medv[i]<=17.0){
+    grp[i]<-'L'
+  } else {
+    grp[i]<-'M'
+  }
+}
+grp <- factor(grp)
+grp <- factor(grp, levels=c("H","M","L"))
+myds <- data.frame(myds, grp)
+head(myds)
+
+
+# 3단계 : 데이터셋의 형태와 기본적인 내용 파악
+str(myds)
+head(myds)
+table(myds$grp)      # 도수분포표 
+
+
+# 4단계 : 히스토그램에 의한 관측값의 분포 확인 
+par(mfrow=c(2,3))                      # 그려야 할 변수 5개 1:5
+for (i in 1:5){ 
+  hist(myds[, i],
+       main = colnames(myds)[i],
+col= 'yellow')
+}
+
+par(mfrow=c(1,1))
+
+
+
+# 5단계 : 상자그림에 의한 관측값의 분포 확인 - 데이터 분포, 이상치 
+
+par(mfrow=c(2,3))                      # 그려야 할 변수 5개 1:5
+for (i in 1:5){ 
+  boxplot(myds[, i],
+       main = colnames(myds)[i])
+}
+
+par(mfrow=c(1,1))
+
+
+
+# 6단계 : 그룹별 관측값 분포 확인
+boxplot(myds$crim~myds$grp, main='1인당 범죄율')   #~ 뒤에 그룹 성격 데이터, 집값이 싼 지역일수록 범죄율 높다
+boxplot(myds$rm~myds$grp, main='방의개수')
+
+
+#7단계 : 다중 산점도를 통한 변수 간 상관 관계 확인 
+pairs(myds[,-6])                                  # rm~ medv 비교적 상관관계 높음
+
+
+
+#8단계 : 그룹 정보를 포함한 변수 간 상관 관계 확인
+point <- as.integer(myds$grp)
+color <- c("red","green","blue")
+pairs(myds[,-6], pch = point, col=color[point])
+
+
+#9단계 : 변수 간 상관계수 확인
+cor(myds[,-6])
+
+
+
+
