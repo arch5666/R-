@@ -81,5 +81,55 @@ plot( iris.2, main = "Tris plot",
 # 범주형 데이터의 그룹핑.
 
 
+# 상관분석
+beers <- c(5,2,9,8,3,7,3,5,3,5) # 맥주 잔 수 
+bal <- c(0.1,0.03,0.19,0.12,0.04,0.0095,0.07,0.06,0.02,0.05)   # 혈중 알코올 농도 
 
+
+tb1 <- data.frame(beers, bal);tb1
+plot(bal~beers, data=tb1)        # 산점도 -> 상관관계 강하고 약한 정도 = 상관계수 (0.5이상이거나 -0.5이하, 상관관계 강하다)
+
+
+res <- lm(bal~beers, data=tb1) # 회귀식 도출- 종속변수 = 독립변수*weight+bias (weight, bias 구하는 것 목표) -> 머신러닝의 지도학습
+res
+abline(res)      # 회귀선 
+
+# 상관분석 - 산점도 -> 회귀식, 회귀선-> 상관분석 
+cor(tb1[, 1:2])   # 이변량 상관계수 -> 0.5이상 양의 상관 관계 존재 
+cor(iris[,1:4])  # 다변량 상관계수
+
+
+
+# 상관분석 순서
+#
+#1. 상관분석 대상 변수선정
+#2. 산점도 작성(관측값 분포 확인) : plot()
+#3. 회귀식 도출 : lm()
+#    (회귀식 : 두 변수의 선형관계를 가장 잘 나타낼 수 있는 선의 식)
+#    (y= xw+b)
+#4. 회귀선을 산점도에 표시 : abline()
+#   (회귀선 : 관측값들의 추세를 가장 잘 나타낼 수 있는 선)
+#5. 상관계수 : cor()
+#6. 상관분석 결과 해석
+
+
+# 시계열 Data - 선 그래프
+
+late <- c(5,8,7,9,4,6,12,13,8,6,6,4)
+plot(month, late,main = '지각생 통계', type="l", lty=1, lwd=1,     #lty- 선 모양, lwd - 선 두께 
+     xlab = 'Month', ylab="late cnt")
+plot(month, late, main = '지각생 통계', type="b", lty=1, lwd=1,
+     xlab = 'Month', ylab="late cnt")
+plot(month, late,  main = '지각생 통계', type="o", lty=1, lwd=1,
+     xlab = 'Month', ylab="late cnt")
+plot(month, late, main = '지각생 통계', type="s", lty=1, lwd=1,
+     xlab = 'Month', ylab="late cnt")
+
+
+# 복수의 선 그래프 
+late1 <- c(5,8,7,9,4,6,12,13,8,6,6,4)
+late2 <- c(4,6,5,8,7,8,10,11,6,5,7,3)
+plot(month, late1, main = '지각생 통계', type="l", lty=2, lwd=2,col="red",
+     xlab = 'Month', ylab="late cnt",ylim=c(1,15))
+lines(month, late2, type="b", col="blue")
 
