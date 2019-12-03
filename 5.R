@@ -169,9 +169,9 @@ for (i in 1:nrow(myds)){
   if(myds$medv[i]>=25.0){
     grp[i]<-'H'
   } else if (myds$medv[i]<=17.0){
-    grp[i]<-'L'
-  } else {
     grp[i]<-'M'
+  } else {
+    grp[i]<-'L'
   }
 }
 grp <- factor(grp)
