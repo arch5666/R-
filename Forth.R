@@ -154,7 +154,7 @@ barplot(table(mtcars$gear), main="g",
         xlab="gear", ylab= " freq", col="green")
 
 
-par(mfrow=c(1,1))  # 가상화면 분할 해체 
+par(mfrow=c(1,1))  # 가상화면 분할 해제
 
 
 
