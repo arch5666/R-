@@ -220,11 +220,12 @@ boxplot(myds$rm~myds$grp, main='방의개수')
 pairs(myds[,-6])                                  # rm~ medv 비교적 상관관계 높음
 
 
-
-#8단계 : 그룹 정보를 포함한 변수 간 상관 관계 확인
-point <- as.integer(myds$grp)
-color <- c("red","green","blue")
-pairs(myds[,-6], pch = point, col=color[point])
+# 8단계 : 그룹 정보를 포함한 변수 간
+#         상관 관계 확인
+point <- as.integer( myds$grp )
+color <- c( "red", "green", "blue" )
+pairs( myds[ , -6 ], pch = point, 
+       col = color[ point ] )
 
 
 #9단계 : 변수 간 상관계수 확인
