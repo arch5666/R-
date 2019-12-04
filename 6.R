@@ -78,7 +78,6 @@ sum(rowSums(is.na(x))>0)
 sum(is.na(x))
 
 
-
 # 결측치 제외한 새로운 데이터셋 생성
 head(x)
 x[ !complete.cases(x), ]  # NA가 포함된 행출력
@@ -128,7 +127,7 @@ v2 <- sort(v1, decreasing = T)
 v2
 
 # Matrix/ Data frame 정렬
-
+iris
 head(iris)
 order(iris$Sepal.Length)
 iris[order(iris$Sepal.Length),] # Ascending
@@ -161,6 +160,7 @@ subset(iris, Sepal.Length > 7.6,
 # 데이터 Sampling
 # 숫자를 임의로 추출 (vector)
 # sample(x, size = 10, replace =  FALSE) // 10개씩 추출 replace 는 비복원은 False 뽑은건 안뽑는다.
+
 x <- 1:100
 y <- sample(x, size = 10, replace =  FALSE)
 y
@@ -195,53 +195,133 @@ x=c("red", "green", "blue", "black","white ")
 com <- combn(x,2)
 com
 
-for (i in i:ncol(com)){
+for (i in 1:ncol(com)){
   cat(com[,i], "\n")
 }
 
 
+# 데이터 집계
+agg <- aggregate(iris[,-5],                 # (집계대상, 집계기준, 수행할 동작)
+                 by=list(iris$Species),
+                 FUN=mean)
+agg
 
 
 
 
+agg <- aggregate(iris[,-5],                 # (집계대상, 집계기준, 수행할 동작)
+                 by=list(iris$Species),     
+                 FUN=sd)
+agg
+
+
+
+head(mtcars)
+agg <- aggregate(mtcars,                 # (집계대상, 집계기준, 수행할 동작)
+                 by=list(cyl=mtcars$cyl, vs=mtcars$vs),      # 그룹핑->#cyl - 3종류 * vs -2종류 = 6종류
+                 FUN=max)
+agg
+
+
+
+# 데이터 병합 -> 데이터를 여기저기 불러왔을 때 병합 
+x <- data.frame(name=c("a","b","c"),
+                mat=c(90,80,40))
+
+y <- data.frame(name=c("a","b","d"),
+                korean= c(75,60,90))    # name 변수 안에 공통된 부분만 병합 
+z <- merge(x,y, by=c("name"))     
+z
+
+merge(x,y)
+merge(x,y,all.x=T)    # 병합 기준 x
+merge(x,y, all.y=T)
+merge(x,y, all=T)     # 단순 통합, 변수도 데이터도 둘 다 추가 
+
+
+x <- data.frame(name=c("a","b","c"),
+                mat=c(90,80,40))
+
+y <- data.frame(name=c("a","b","d"),
+                korean= c(75,60,90))    
+
+merge(x,y, by.x=c("name"),   # x, y 같은 이름의 변수가 없다.  
+      by.y= c("sname"))       
 
 
 
 
+#
+# dplyr package -> 데이터 가공 -> 파이프 연산자 %>% (왼쪽 ctrl +shift+m %>% )
+#
+
+install.packages("dplyr")
+library(dplyr)
+
+
+df <- data.frame(var1=c(1,2,1), var2=c(2,3,2))
+df
 
 
 
+#rename() : 이름 변경   -> 쓰임새 많음!!!!!
+df <- rename(df, v1=var1, v2=var2)
+
+df
 
 
+# 파생변수 추가 -> 데이터 가공 
+df$sum <- df$v1+df$v2
+df
 
 
+df[2,1] <- 5
+df
+
+df <- data.frame(id=c(1,2,3,4,5,6),
+                 class=c(1,1,1,1,2,2),
+                 math=c(50,60,45,30,25,50),
+                 english=c(98,97,86,98,80,89),
+                 science=c(50,60,78,58,65,98))
+
+df
+
+# filter() : 행 추출/ 인수로 조건식(논리값) 
+df %>% filter(class==1) 
+df %>% filter(class==2)
+df %>% filter(class!=1)
+df %>% filter(class!=2)
+
+df %>% filter(science>70)
+df %>% filter(math<50)
+
+df %>% filter(class==1&math >=50)
+df %>% filter(math >= 50|english>=90)
+df %>% filter(class %in% c(1,3,5))    # class에 1,3,5반이 포함된 행 추출  
+
+class1 <- df %>% filter(class==1)     # 1, 2반 분리 -> 별도의 데이터 프레임 
+class2 <- df %>% filter(class==2)
+class1
+class2
 
 
+# select() : 변수 추출
+df %>% select(math)
+df %>% select(science)
+
+df %>% select(class,math,science)
+
+df %>% select(-math)
 
 
+# dplyr 함수 조합 - %>%  장착 개수 제한x 
+df %>% 
+  filter(class==1) %>% 
+  select(science)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+df %>% 
+  select(id, science) %>% 
+  head
 
 
 
