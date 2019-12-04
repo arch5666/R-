@@ -56,7 +56,24 @@ na_count
 na_count <- apply(x,2, 
   function(y) sum(is.na(y)))       # 익명 함수, 많이 사용  
 na_count
- 
+
+
+barplot(na_count[ na_count>0 ]) 
+install.packages("VIM")
+require(VIM)         # library와 같은 역할 
+
+# 결측치 자료 조합 확인용 시각화 도구
+aggr(x,prop=FALSE, numbers=TRUE)
+
+# 두 개의 변수간의 결측치 관계 확인 시각화 도구 
+marginplot(x[c("Sepal.Width","Petal.Width")], pch=20, col= c("darkgray", "red", "blue"))
+
+
+
+
+
+
+
 
 
 
