@@ -92,6 +92,7 @@ head(y)
 
 # 특이값 , 이상치 (outlier)
 st <- data.frame(state.x77)
+boxplot(st)
 summary(st$Income)
 boxplot(st$Income)
 boxplot.stats(st$Income)$out
@@ -422,7 +423,7 @@ total
 
 df1 <- data.frame(id=c(1,2,3),
                   adress=c("서울", "부산", "제주"),
-                  stringFactors=F)  # stringFactors=F -> 문자열이 Factor로 만들어질 가능성을 막아줌
+                  stringsAsFactors=F)  # stringsAsFactors=F -> 문자열이 Factor로 만들어질 가능성을 막아줌
 
 df1
 
@@ -431,6 +432,8 @@ df2 <- data.frame(id=c(1,2,4),
                   
 
 df2
+
+
 
 # 변수추가 
 df_left <- left_join(df1,df2, by='id')   #df1 기준 -> df2 변수 추가 , id가 같은 것 뽑아옴 
@@ -460,14 +463,12 @@ library(descr)
 
 
 
-
-
 df <- data.frame(id=c(1,2,4),
                   gender=c("남","여","남"))
 
 
-table(df$gender)
-freq(df$gender)
+table(df$gender)   
+freq(df$gender)       # 도수분포표 
 freq(df$gender, plot=F)
 
 
