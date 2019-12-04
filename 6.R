@@ -45,16 +45,18 @@ cat(colnames(x)[i],                   # 어느 변수에 결측치가 있는지 
 }
 
 
-# apply() 이용 - 많이 이용 
+# apply() 이용 - 많이 이용  - 함수 : 반복 1회차에 실행 (반복 1번 할 때 하는 동작)
 col_na <- function(y){
-  return(sum(is.na(y)))
+  return(sum(is.na(y)))            # 논리값의 벡터로  return
 }
 
 na_count <- apply(x,2,col_na)
 na_count
 
-
-
+na_count <- apply(x,2, 
+  function(y) sum(is.na(y)))       # 익명 함수, 많이 사용  
+na_count
+ 
 
 
 
