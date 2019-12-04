@@ -325,9 +325,150 @@ df %>%
 
 
 
+df %>% 
+  select(id, science) %>% 
+ sum
+
+df %>% 
+  select(id, science) %>% 
+ max
 
 
 
+# arrange(): 정렬
+df %>%  arrange(science)   
+df %>%  arrange(desc(science))
+
+
+# mutate() : 파생변수 추가 
+df %>% 
+  mutate(total=math+english+science) %>% 
+  head
+
+
+df %>% 
+  mutate(total=math+english+science, average=(math+english+science)/3) %>% 
+  head
+
+
+df %>% 
+  mutate(grade=ifelse(science>=60, 'pass', 'fail')) %>% 
+  head
+
+
+df %>% 
+  mutate(total=math+english+science, average=(math+english+science)/3) %>% 
+  mutate(grade= ifelse(average>=90, 'pass', ifelse(average<60, 'fail', 'normal'
+                                                   ))) %>% 
+  head
+
+
+
+df.sort <- df %>% 
+  mutate(total=math+english+science, average=(math+english+science)/3) %>% 
+ arrange(desc(average)) %>% 
+  head
+
+
+df.sort
+
+# summarise() : 집단별 요약     - > 유용한 함수 
+# group_by : 집단별 나누기
+
+df %>%  summarise (mean_math=mean(math))
+
+df%>% 
+ group_by(class) %>% 
+  summarise(mean_math=mean(math),
+            mean_english=mean(english),mean_science=mean(science), n=n())  # n은 빈도수 계산 ~ table 함수와 비슷 ,  tibble : 2*5
+                                                                           # dbl 숫자
+
+
+
+install.packages("ggplot2")
+
+str(ggplot2::mpg)     #  :: 누가 가지고 있는 (library 쓰지 않고 실행 , 패키지명 :: 데이터 샛 명)
+mpg <- data.frame(ggplot2::mpg)
+dim(mpg)
+str(mpg)
+head(mpg)
+View(mpg)
+
+
+mpg %>% 
+  group_by(manufacturer, drv) %>% 
+  summarise(mean_cty=mean(cty)) %>% 
+  head(10)
+
+mpg %>% 
+  group_by(manufacturer) %>% 
+  filter(class=='suv') %>%   # 행 추출
+  mutate(tot=(cty+hwy)/2) %>% 
+  summarise(mean_tot=mean(tot))
+  arrange(desc(mean_tot)) %>% 
+  head(5)
+
+  
+# 데이터 합치기
+#left_join(): 가로로 합치기 (변수추가)
+#inner_join() : 가로로 합치기 (변수추가)
+#full_join() : 가로로 합치기(변수추가)
+# bind_rows() : 세로로 합치기 (data 추가) 
+
+df1 <- data.frame(id=c(1,2,3,4,5),midterm=c(60,80,70,90,85)) ; df1
+df2 <- data.frame(id=c(1,2,3,4,5), final=c(60,80,70,90,85)) ;df2
+total <- left_join(df1, df2, by="id")
+total
+
+df1 <- data.frame(id=c(1,2,3),
+                  adress=c("서울", "부산", "제주"),
+                  stringFactors=F)  # stringFactors=F -> 문자열이 Factor로 만들어질 가능성을 막아줌
+
+df1
+
+df2 <- data.frame(id=c(1,2,4),
+                  gender=c("남","여","남"))
+                  
+
+df2
+
+# 변수추가 
+df_left <- left_join(df1,df2, by='id')   #df1 기준 -> df2 변수 추가 , id가 같은 것 뽑아옴 
+df_left
+df_inner <- inner_join(df1, df2, by='id') # df1, df2 동일하게 있는 것만 변수 추가 
+df_inner
+df_full <- full_join(df1,df2,by='id')
+df_full
+
+
+df1 <- data.frame(id=c(1,2,3,4,5),test=c(60,80,70,90,85)) ; df1
+df2 <- data.frame(id=c(1,2,3,4,5), test=c(60,80,70,90,85)) ;df2
+
+# 행 추가 - data 추가 
+df_all <- bind_rows(df1,df2)
+df_all  # 세로 추가 
+
+
+install.packages("psych")
+library(psych)
+
+summary(mtcars)
+describe(mtcars)  # 더 많은 내용 표시 #vars 변수 개수 , n 관측치 개수 
+
+install.packages("descr")
+library(descr)
+
+
+
+
+
+df <- data.frame(id=c(1,2,4),
+                  gender=c("남","여","남"))
+
+
+table(df$gender)
+freq(df$gender)
+freq(df$gender, plot=F)
 
 
 
