@@ -63,17 +63,19 @@ install.packages("VIM")
 require(VIM)         # library와 같은 역할 
 
 
-# 결측치 자료 조합 확인용 시각화 도구
+# 결측치 자료 조합 확인용 시각화 도구      # 머신러닝 수행시 결측치 처리 매우 중요- 학습률과 직결 
 aggr(x,prop=FALSE, numbers=TRUE)          # 147이 결측치가 없는 데이터 개수 
 
 
-# 두 개의 변수간의 결측치 관계 확인 시각화 도구 
-marginplot(x[c("Sepal.Width","Petal.Width")], pch=20, col= c("darkgray", "red", "blue"))
+# 두 개의 변수간의 결측치 관계 확인 시각화 도구 - 빨간점이 결측치, 두 변수 관계 -> 어떤 방법으로 결측치를 처리?
+marginplot(x[c("Sepal.Width","Sepal.Length")], pch=20, col= c("darkgray", "red", "blue"))
 
 
+# Matrix/Data. Frame의 행(data)별 결측치 확인
+rowSums(is.na(x))
+sum(rowSums(is.na(x))>0)
 
-
-
+sum(is.na(x))
 
 
 
