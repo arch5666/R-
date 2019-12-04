@@ -1,0 +1,139 @@
+# 2019.12.4(수)
+#  
+# Data Preprocessing (결측치, 이상치)
+# 
+# 결측치 처리
+# vector 결측치 처리
+
+
+z <- c(1, 2, 3, NA, 5, NA, 8)       
+sum(z)
+is.na(z)               # 결측치 여부 확인하는 함수 (벡터형, 결과값은 논리값)
+sum(is.na(z))          # Iterator 내장 - 자동 반복 기능 -> 결측치 수 판단 
+sum(z, na.rm=TRUE)    # 결측치 제거 유무 결정 =>  na.rm =TRUE(결측치 제외하여 합계 구하라)
+
+
+
+# 결측치 대체 및 제거
+z1 <- z
+z2 <- c(5,8,1,NA,3,NA, 7)
+z1[is.na(z1)] <- 0      # 단순 대입법 (): 연산자 먼저 수행시, 함수의 인수 전달/ []벡터나 행렬의 데이터프레임의 요소 (원소) 지정할 때 
+z1                      # (), []동순위이면 결합성 , 결측치만 포함된 인덱스만 0으로 대체 
+# Listwise deletion - 삭제 
+z3 <- as.vector(na.omit(z2))   # 결측치가 포함된 데이터 삭제 / 무조건 지워야 하는가 고민 후 결정 
+z3
+
+
+
+# Matrix/Data Frame 결측치 처리
+x <- iris
+x[ 1, 2] <- NA
+x[ 1, 3] <- NA
+x[ 2, 3] <- NA
+x[ 3, 4] <- NA
+
+head(x)
+
+# Matrix/Data Frame 열(변수) 별 결측치 확인
+# for문 이용 - 반복문 
+
+for (i in 1:ncol(x)){                 # 반복회수 열의 수(변수 개수) - 5번 반복 
+  this.na <- is.na(x[,i])             # 변수 지정 (각 변수는 벡터이다.)
+cat(colnames(x)[i],                   # 어느 변수에 결측치가 있는지 출력 
+    "\t",sum(this.na),
+    "\n")
+}
+
+
+# apply() 이용 - 많이 이용 
+col_na <- function(y){
+  return(sum(is.na(y)))
+}
+
+na_count <- apply(x,2,col_na)
+na_count
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
