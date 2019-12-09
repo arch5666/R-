@@ -72,6 +72,7 @@ ggplot(data=iris, mapping= aes(y=Petal.Length,fill=Species))+
   geom_boxplot()            # 품종별로 Boxplot
 
 
+
 # ggplot Line chart - timeseries data
 year <- 1937:1960
 cnt <- as.vector(airmiles)
@@ -105,6 +106,79 @@ x_inter
 ggplot(economics, aes(x=date, y=psavert))+
        geom_line(col="blue")+
        geom_vline(xintercept = x_inter)  # 가장 낮은 값을 갖고 있는 날에 수직선 
+
+
+
+# 텍스트 추가 
+ggplot(airquality, aes(x=Day, y=Temp))+       #날짜와 온도(온도 출력) 
+geom_point()+
+geom_text(aes(label=Temp, vjust=0, hjust=0)) # 산점도에서 실제값 함께 표시할 때 
+                                             #  hjust, vjust 좌표 
+
+
+# 영역 지정 및 화살표 표시  
+ggplot(mtcars, aes(x=wt, y=mpg))+
+  geom_point()+
+  annotate("rect", xmin=3, xmax=4,
+           ymin=12, ymax=21, alpha=0.5, fill="skyblue") + # 특정 영역에 
+                                                         # 모양-사각형(rect), alpha~1 불투명
+
+annotate("segment", x=2.5, xend=3.7, 
+         y=10, yend=17, color="red", arrow=arrow()) +     # segment 화살표, xend, yend - 화살표 사이즈 
+
+annotate("text", x=2.5, y=10, label="point")
+
+
+
+# treemap- 상자 하나 크기 : 데이터 크기
+install.packages("treemap")
+library(treemap)
+
+data(GNI2014)
+dim(GNI2014)
+str(GNI2014)
+head(GNI2014)
+View(GNI2014)
+
+treemap(GNI2014, index=c("continent","iso3"),   # 계층구조 (대륙, 국가 )
+       vSize="population",                      # 타일크기            
+       vColor = "GNI",                          # 타일컬러                
+       type="value",                            # 타일 컬러링 방법 
+       bg.labels = "yellow",                    # 레이블 배경색
+       title = "World's GNI")                   # 제목      
+  
+
+
+st <- data.frame(state.x77)
+st <- data.frame(st, stname=rownames(st))
+treemap(st,
+        index=c("stname"), vSize = "Area", 
+        vColor="Income", type= "value",
+        title="미국 주별 수입")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
