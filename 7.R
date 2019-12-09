@@ -130,7 +130,7 @@ annotate("text", x=2.5, y=10, label="point")
 
 
 
-# treemap- 상자 하나 크기 : 데이터 크기
+# treemap- 상자 하나 크기 : 데이터 크기 -> 데이터를 기준에 따라 전체적으로 보여주고자 할 때
 install.packages("treemap")
 library(treemap)
 
@@ -155,6 +155,31 @@ treemap(st,
         index=c("stname"), vSize = "Area", 
         vColor="Income", type= "value",
         title="미국 주별 수입")
+
+
+# 산점도에 Bubble 추가(Bubble chart)
+symbols(st$Illiteracy, st$Murder,              # 원의 x,y좌표
+       circles=st$Population, inches=0.3,     # 원의 반지름 
+       fg="white", bg="lightgray", lwd=1.5,   # 원 크기 조절값
+       xlab="rate of Illiteracy",              # 원의 테두리 색(fg)
+       ylab="crime(murder) rate",              # 원의 바탕색(bg)
+       main= "Illiteracy and Cri me")         # 원의 테두리선 두께 (lwd)
+text(st$Illiteracy, st$Murder, rownames(st),    # 텍스트 출력 x,y좌표
+     cex=0.6, col="brown")                       # 출력할 text
+                                                # 폰트크기, 폰트 컬러
+
+# https://www.r-graph-gallery.com
+
+
+
+
+
+
+
+
+
+
+
 
 
 
