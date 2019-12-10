@@ -37,7 +37,7 @@ tbl <- table( mtcars$gear, mtcars$vs )
 tbl
 mosaicplot( tbl, color= T, main = "Gear and Vs" )  
 
-# 테이블 함수는 비도체크, 범주형에 많이 씀 (범주 1개)
+# 테이블 함수는 빈도체크, 범주형에 많이 씀 (범주 1개)
 # 여기선 변수 2개 쓰임.
 # 테이블 행이 x축, 열이 y축
 # 전체적인 비율을 눈으로 비교 가능.
