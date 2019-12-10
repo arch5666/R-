@@ -35,9 +35,10 @@ ds
 # 중복 데이터 제거 - 차원 축소를 하려면 중복데이터가 없어야한다.
 dup = which(duplicated(ds))
 dup
-ds
 ds <- ds[-dup,]
+ds
 ds.y <- iris$Species[-dup]
+ds.y
 
 # 차원 축소 수행 - t-SNE 실행
 tsne <- Rtsne(ds,                # 차원 축소 대상 데이터셋
@@ -73,5 +74,148 @@ color <- c('red', 'green', 'blue')
 scatter3d( x = df.tsne$X1, y= df.tsne$X2, z=df.tsne$X3,
            point.col = color[points],
            surface = FALSE)
+
+
+
+
+
+#
+# 공간 시각화
+#
+# google map 사용
+#
+# 절차
+# 1. R 최신버전 설치
+# 2. ggplot2 최신버전 설치
+# 3. ggmap 설치 ( install.package("ggmap"))
+# 4. 구글맵을 사용하기 위한 API key 획득
+# 5. 구글맵을 이용한 공간 시각화 수행
+
+library(ggmap)
+register_google( key = 'AIzaSyAkl_0mai7HdkePLL2H6ldWSbIXBeEGNkk')
+
+gc <- geocode(enc2utf8("제주"))
+#내가 원하는 지점의 위도 경도(data type = tibble)
+gc
+
+cen <- as.numeric(gc) #경도/위도 숫자로 변환
+cen
+
+# 지도 표시
+map <- get_googlemap(center = cen) # 지도 중심점 좌표표
+ggmap(map)
+
+
+gc <- geocode(enc2utf8('한라산'))
+gc
+
+cen <- as.numeric(gc)
+cen
+
+map <- get_googlemap(center = cen,  #지도 중심점 좌표
+                     zoom = 10,     #지도 확대 정도
+                     size = c(640,640), #지도 크기
+                     maptype = "roadmap") #지도 유형
+ggmap(map)
+
+
+cen <- c(126.561099, 33.253077)
+map <- get_googlemap(center = cen,
+                     zoom = 15,
+                     maptype = "roadmap")
+ggmap(map)
+
+# 지도 위 마커 표시
+gc <- geocode( enc2utf8("제주"))
+cen <- as.numeric(gc)
+map <- get_googlemap( center = cen,
+                      maptype = "roadmap",
+                      markers = gc,
+                      zoom = 14)
+ggmap(map)
+
+names <- c("용두암","성산일출봉","정방폭포","중문관광단지",
+           "한라산 1100고지","차귀도")
+addr <- c("제주시 용두암길 15",
+          "서귀포시 성산읍 성산리",
+          "서귀포시 동흥동 299-3",
+          "서귀포시 중문동 2624-1",
+          "서귀포시 색달동 산1-2",
+          "제주시 한경면 고산리 125")
+gc <- geocode(enc2utf8(addr))
+gc
+
+
+# 관광지 명칭과 좌표값으로 Data Frame 생성
+df <- data.frame(name=names,
+                 lon = gc$lon,
+                 lat = gc$lat)
+df
+
+cen <- c( mean(df$lon), mean(df$lat))
+
+map <- get_googlemap(center = cen,
+                     maptype = "roadmap",
+                     zoom = 10,
+                     size = c(640,640),
+                     markers = gc )
+ggmap(map)
+
+# 지도에 관광지 이름 추가
+gmap <- ggmap(map)
+gmap +
+  geom_text(data = df,        # 데이터 셋셋
+            aes(x=lon, y=lat),# 텍스트 위치
+            size=5,           # 텍스트 크기
+            label = df$name ) # 텍스트 이름
+
+
+
+
+
+# 지도에 관광지 이름 추가
+gmap <- ggmap(map)             
+gmap+
+  geom_text(data=df,            # 데이터셋
+            aes(x=lon, y=lat),  # 텍스트 위치
+            size=5,             # 텍스트 크기
+            label=df$name)      # 텍스트 이름
+
+
+# 지도에 데이터 표시      #spd - 바람의 세기 -> 관측치 값의 바람의 세기를 지도 위에 표시
+dim(wind)
+str(wind)
+
+sp <- sample(1:nrow(wind), 50)
+df <- wind[sp,]
+head(df)
+
+cen <- c(mean(df$lon), mean(df$lat))
+gc <- data.frame(lon=df$lon, lat=df$lat)
+head(gc)
+
+# 지도에 마커 표시
+map <- get_googlemap(center=cen,
+                     maptype = "roadmap",
+                     zoom=6,
+                     markers=gc)
+
+ggmap(map)
+
+
+# 지도에 풍속을 원의 크기로 표시
+
+map <- get_googlemap(center=cen,
+                     maptype = "roadmap",
+                     zoom=6)
+
+gmap <- ggmap(map)
+gmap+
+  geom_point(data=df,
+             aes(x=lon, y=lat, size=spd),
+             alpha=0.5, col="blue")+
+  scale_size_continuous(range=c(1,14))  # 원 크기 조절 , alpha 크면 불투명
+
+
 
 
