@@ -37,6 +37,7 @@ dup = which(duplicated(ds))
 dup
 ds <- ds[-dup,]
 ds
+str(ds)
 ds.y <- iris$Species[-dup]
 ds.y
 
@@ -161,6 +162,7 @@ map <- get_googlemap(center = cen,
                      markers = gc )
 ggmap(map)
 
+
 # 지도에 관광지 이름 추가
 gmap <- ggmap(map)
 gmap +
@@ -218,4 +220,56 @@ gmap+
 
 
 
+
+# 단계 구분도  - treemap과 쓰임새 유사
+install.packages("ggiraphExtra")
+library(ggiraphExtra)
+
+dim(USArrests)
+str(USArrests)
+head(USArrests)
+
+library(tibble)
+crime <- rownames_to_column(USArrests, var="state")
+crime$state <- tolower(crime$state)
+str(crime)
+
+library(ggplot2)
+install.packages("mapproj")
+library(mapproj)
+
+state_map <- map_data("state")
+str(state_map)
+
+ggChoropleth(data=crime, aes(fill=Murder,
+                             map_id=state),
+             map= state_map)
+
+
+
+install.packages("devtools")     # 국내 지도 데이터 가져오기
+library(devtools)
+devtools::install_github("cardiomoon/kormaps2014")
+devtools::install_github("cardiomoon/moonBook2")
+
+library(kormaps2014)
+library(moonBook2)
+
+str(kormap1)
+
+
+theme_set(theme_gray(base_family="NanumGothic"))
+
+ggplot(korpop1,aes(map_id=code,fill=총인구_명))+
+  geom_map(map=kormap1,colour="black",size=0.1)+
+  expand_limits(x=kormap1$long,y=kormap1$lat)+
+  scale_fill_gradientn(colours=c('white','orange','red'))+
+  ggtitle("2015년도 시도별 인구분포도")+
+  coord_map()
+
+
+areacode1=changeCode(areacode)
+areacode1
+kormap1=changeCode(kormap1)
+kormap1
 
