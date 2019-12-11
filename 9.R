@@ -175,22 +175,13 @@ wordcloud2(word_table2, size=1.6,
 
 # 8.4 일정 방향 정렬 - 배경과 바탕색이 반대 계통 (흰색과 검은색)
 wordcloud2(word_table2, 
-           minRotation = -pi/6,
-           maxRotation = -pi/6,
+           minRotation = -pi/4,
+           maxRotation = -pi/4,
            rotateRatio = 1)
 wordcloud2(demoFreq, 
            minRotation = -pi/6,
            maxRotation = -pi/6,
            rotateRatio = 1)
-
-
-
-
-
-
-
-
-
 
 
 
