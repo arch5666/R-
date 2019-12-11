@@ -30,11 +30,18 @@ text
 #'우리 말씀' 한글사전 로딩
 buildDictionary(ext_dic = 'woorimalsam')  
 pal2 <- brewer.pal(8,'Dark2')      # 색상 팔레트 생성
-noun <- sapply(text, extractNoun,USE.NAMES = F) # 명사 추출
+noun <- sapply(text, extractNoun,USE.NAMES = F) # 명사 추출, 행 이름은 안 쓰겠다(USE.NAMES = F)
 noun
 
-
-
+#4. 추출된 단어(주로 명사)에 대한 빈도수 계산 및 시각화
+noun2 <- unlist(noun)  # list -> vector
+wordcount <- table(noun2)
+sort.noun <- sort(wordcount, decreasing = T)[1:10]
+sort.noun
+sort.noun <- sort.noun[-1]
+barplot(sort.noun, names.arg=names(sort.noun),
+            col='steelblue', main= '빈도수 높은 단어',
+            ylab='단어 빈도수')
 
 
 
