@@ -43,6 +43,30 @@ barplot(sort.noun, names.arg=names(sort.noun),
             col='steelblue', main= '빈도수 높은 단어',
             ylab='단어 빈도수')
 
+df <- as.data.frame(sort.noun)
+df
+ggplot(df,aes(x=df$noun2, y=df$Freq))+
+  geom_bar(stat='identity',
+           width = 0.7,
+           fill="steelblue")+
+  ggtitle('빈도수 높은 단어')+
+  theme(plot.title = element_text(size=25,
+                                  face='bold',
+                                  colour='steelblue',
+                                  hjust=0,
+                                  vjust=1))+
+  labs(x='명사', y='단어빈도수')+
+  geom_text(aes(label=df$Freq),hjust=0.3)+
+coord_flip()
+  
+
+
+
+
+
+
+
+
 
 
 
