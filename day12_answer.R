@@ -10,6 +10,7 @@
 Sys.setenv( JAVA_HOME = 'C:/Program Files/Java/jre1.8.0_231' )
 
 library( wordcloud ) 
+library( wordcloud2 )
 library( KoNLP ) 
 library( RColorBrewer ) 
 
