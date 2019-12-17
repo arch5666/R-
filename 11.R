@@ -45,6 +45,7 @@ summary(model)
 # 
 
 newdata2 <- Prestige[,c(1:5)]
+newdata2
 model2 <- lm(income~., data=newdata2)
 summary(model2)
 
@@ -52,7 +53,7 @@ library(MASS)
 model3 <- stepAIC(model2)
 summary(model3)
 
-# Logistic Regression : 범주형 Data 대한 예측 ex) iris$species 
+# Logistic Regression : 범주형 Data 대한 예측 ex) iris$species - ex) 스팸메일 
 # 결과값을 범주형태로 변환하는 과정 필요 
 # 변환 방식 : One-hot encoding (0,1형태로 변환)-> sigmoid 함수
 
@@ -77,16 +78,27 @@ iris_model
 coef(iris_model)
 summary(iris_model)
 
-# 적용시 y값이 범주형이어야 !!!
+# 적용시 y값의 형태가 범주형이어야 !!! - 예측 성공률 판별 중요!!!!
 unknown <- data.frame(rbind(c(5.1,3.5,1.4,0.2)))
 names(unknown) <- names(iris)[1:4]
 unknown
 
 pred <- predict(iris_model, unknown)
 pred
+pred <- round(pred,0)
+levels(iris$Species)[pred]
 
 
+test <- iris[,1:4]
 
+pred <- predict(iris_model)
+pred <- round(pred,0)
+
+
+answer <- as.integer(iris$Species)
+pred==answer
+acc <- mean(pred==answer)
+acc
 
 
 
