@@ -77,6 +77,18 @@ iris_model
 coef(iris_model)
 summary(iris_model)
 
+# 적용시 y값이 범주형이어야 !!!
+unknown <- data.frame(rbind(c(5.1,3.5,1.4,0.2)))
+names(unknown) <- names(iris)[1:4]
+unknown
+
+pred <- predict(iris_model, unknown)
+pred
+
+
+
+
+
 
 
 
