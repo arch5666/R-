@@ -54,7 +54,7 @@ clusplot(mydata,       # 군집대상
 
 subset(mydata, fit$cluster==2)
 
-# -------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 
 # 대상 데이터 표준화 후 군집화
 #
@@ -95,15 +95,15 @@ acc
 table(pred, cl.ts)
 
 
-# 교차 검증 방법(K-fold cross validation)
+# 교차 검증 방법(K-fold cross validation)   - 모델검증 
+
 install.packages("cvTools")
 library(cvTools)
 
 k=10     # 훈련 10번 -> 훈련 데이터가 10번 바뀜 -> 예측률들의 평균 도출 
-folds <- cvFolds(nrow(iris),K=k)
-
-acc <- c()
-for (i in 1:k){
+folds <- cvFolds(nrow(iris),K=k)    # 폴드 생성
+acc <- c()                          # 폴드별 예측 정확도 저장용 벡터
+for (i in 1:k){                     
   ts.idx <- folds$which==i
   ds.tr <- iris[-ts.idx, 1:4]
   ds.ts <- iris[ts.idx, 1:4]
@@ -112,10 +112,8 @@ for (i in 1:k){
   pred <- knn(ds.tr, ds.ts, cl.tr, k=5)
   acc[i] <- mean(pred==cl.ts)
 }
-acc
-mean(acc)
-
-
+acc       # 폴드별 예측 정확도 
+mean(acc) # 폴드평균 예측 정확도
 
 
 
