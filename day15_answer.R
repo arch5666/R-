@@ -11,7 +11,7 @@
 str( trees )
 head( trees )
 
-trees_height_model <- lm( Height~Girth + Volume, data = trees )
+trees_height_model <- lm( Volume~Girth + Height, data = trees )
 
 coef( trees_height_model )
 summary( trees_height_model )
