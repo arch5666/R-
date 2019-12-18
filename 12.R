@@ -79,6 +79,44 @@ fit
 # 분류 : 특정 data가 어떤 그룹에 속하는지 알아내는 모델
 # KNN(K-Nearest Neighbor) : 분류 알고리즘
 
+# KNN(K-Nearesr Neighbor, K-최근접 이웃) 분류 알고리즘
+#
+# 훈련용/테스트용 데이터 준비
+library(class)
+tr.idx <- c(1:25, 51:75, 101:125)  # 임의의 위치 선정
+ds.tr <- iris[tr.idx, 1:4]   # 훈련용 (변수 4개)
+ds.ts <- iris[-tr.idx, 1:4]  # 테스트용
+cl.tr <- factor(iris[tr.idx,5]) # 훈련용 그룹정보
+cl.ts <- factor(iris[-tr.idx, 5]) # 테스트 그룹정보
+pred <- knn(ds.tr, ds.ts, cl.tr, k=2, prob = TRUE)   # k : 근접한 이웃 수 
+pred
+acc <- mean(pred==cl.ts)
+acc
+table(pred, cl.ts)
+
+
+# 교차 검증 방법(K-fold cross validation)
+install.packages("cvTools")
+library(cvTools)
+
+k=10     # 훈련 10번 -> 훈련 데이터가 10번 바뀜 -> 예측률들의 평균 도출 
+folds <- cvFolds(nrow(iris),K=k)
+
+acc <- c()
+for (i in 1:k){
+  ts.idx <- folds$which==i
+  ds.tr <- iris[-ts.idx, 1:4]
+  ds.ts <- iris[ts.idx, 1:4]
+  cl.tr <- factor(iris[-ts.idx,5])
+  cl.ts <- factor(iris[ts.idx, 5])  
+  pred <- knn(ds.tr, ds.ts, cl.tr, k=5)
+  acc[i] <- mean(pred==cl.ts)
+}
+acc
+mean(acc)
+
+
+
 
 
 
