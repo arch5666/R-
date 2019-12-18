@@ -11,16 +11,16 @@
 str( trees )
 head( trees )
 
-trees_height_model <- lm( Volume~Girth + Height, data = trees )
+trees_volume_model <- lm( Volume~Girth + Height, data = trees )
 
-coef( trees_height_model )
-summary( trees_height_model )
+coef( trees_volume_model )
+summary( trees_volume_model )
 
 # 회귀식
-Height = 83.2957705 - 1.8615109 * trees$Girth + 0.5755946 * trees$Volume
-Height
-fitted( trees_height_model )
-residuals( trees_height_model )
+Volume = -57.9876589 +4.7081605 * trees$Girth + 0.3392512 * trees$Volume
+Volume
+fitted( trees_volume_model )
+residuals( trees_volume_model )
 
 #(2) 다중선형 회귀모델을 이용하여 trees 데이터셋의 나무 둘레(Girth)와 나무의 키
 #(Height)로 나무의 볼륨을 예측하시오.
